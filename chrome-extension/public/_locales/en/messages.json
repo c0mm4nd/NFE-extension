@@ -1,10 +1,30 @@
 {
-  "extensionDescription": {
-    "description": "Extension description",
-    "message": "Chrome extension boilerplate developed with Vite, React and Typescript"
-  },
   "extensionName": {
-    "description": "Extension name",
-    "message": "Chrome extension boilerplate"
+    "message": "Non-Fungible Enthusiast",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Non-Fungible Enthusiast is an innovative browser extension designed for NFT enthusiasts. It recommends the latest and most promising NFT artworks based on your browsing habits and interests, helping you discover valuable treasures in the vast field of digital art. Whether you are an experienced collector or a novice investor, Non-Fungible Enthusiast is your best companion in exploring the NFT world.",
+    "description": "A description of the extension."
+  },
+  "extensionShortDescription": {
+    "message": "A browser extension recommending the latest NFTs based on your interests.",
+    "description": "A short description of the extension."
+  },
+  "welcomeMessage": {
+    "message": "Welcome to Non-Fungible Enthusiast! Start exploring the latest NFT artworks now!",
+    "description": "A welcome message for the users."
+  },
+  "recommendationMessage": {
+    "message": "Based on your interests, we recommend the following NFTs:",
+    "description": "A message to introduce NFT recommendations."
+  },
+  "noRecommendationsMessage": {
+    "message": "No NFT recommendations available at the moment. Please keep browsing, and we will suggest more exciting content based on your interests.",
+    "description": "A message to display when there are no recommendations."
+  },
+  "errorMessage": {
+    "message": "Sorry, an error occurred. Please try again later.",
+    "description": "A message to display when there is an error."
   }
 }
