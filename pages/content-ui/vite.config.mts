@@ -4,11 +4,13 @@ import { withPageConfig, isDev } from '@chrome-extension-boilerplate/vite-config
 
 const rootDir = resolve(__dirname);
 const srcDir = resolve(rootDir, 'src');
+const workspaceDir = resolve(rootDir, '..', '..');
 
 export default withPageConfig({
   resolve: {
     alias: {
       '@src': srcDir,
+      '@workspace': workspaceDir,
     },
   },
   plugins: [isDev && makeEntryPointPlugin()],
