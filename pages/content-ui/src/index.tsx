@@ -1,11 +1,12 @@
 import { createRoot } from 'react-dom/client';
 import Recommendation from '@src/recommendation';
+import RecommendationOld from '@src/recommendation_old';
 import Popup from './popup';
 // eslint-disable-next-line
 // @ts-ignore
 import tailwindcssOutput from '@src/tailwind-output.css?inline';
 
-function injectOpenseaIndexRecommendation() {
+function injectOpenseaIndexRecommendationOld() {
   const root = document.createElement('div');
   root.id = 'non-fungible-enthusiast-view-root';
   root.style.setProperty('--grid-item-col-span', '12');
@@ -28,7 +29,35 @@ function injectOpenseaIndexRecommendation() {
   shadowRoot.adoptedStyleSheets = [globalStyleSheet];
   shadowRoot.appendChild(rootIntoShadow);
 
-  createRoot(rootIntoShadow).render(<Recommendation />);
+  createRoot(rootIntoShadow).render(<RecommendationOld />);
+}
+
+interface universalRecommendationProps {
+  wallet: string;
+}
+
+function injectOpenseaUniversalRecommendation(props: universalRecommendationProps) {
+  const root = document.createElement('div');
+  root.id = 'non-fungible-enthusiast-sidebar-root';
+  root.style.position = 'fixed';
+  root.style.zIndex = '200';
+
+  document.body.append(root);
+
+  const rootIntoShadow = document.createElement('div');
+  rootIntoShadow.id = 'shadow-root';
+
+  const shadowRoot = root.attachShadow({ mode: 'open' });
+  shadowRoot.appendChild(rootIntoShadow);
+
+  /** Inject styles into shadow dom */
+  const globalStyleSheet = new CSSStyleSheet();
+  globalStyleSheet.replaceSync(tailwindcssOutput);
+
+  shadowRoot.adoptedStyleSheets = [globalStyleSheet];
+  shadowRoot.appendChild(rootIntoShadow);
+
+  createRoot(rootIntoShadow).render(<Recommendation platform="opensea" wallet={props.wallet} />);
 }
 
 function injectOpenseaItemRating() {
@@ -160,6 +189,30 @@ function injectOpenseaItemRating() {
   observer.observe(document.body, config);
 }
 
+function injectBlurUniversalRecommendation(props: universalRecommendationProps) {
+  const root = document.createElement('div');
+  root.id = 'non-fungible-enthusiast-sidebar-root';
+  root.style.position = 'fixed';
+  root.style.zIndex = '200';
+
+  document.body.append(root);
+
+  const rootIntoShadow = document.createElement('div');
+  rootIntoShadow.id = 'shadow-root';
+
+  const shadowRoot = root.attachShadow({ mode: 'open' });
+  shadowRoot.appendChild(rootIntoShadow);
+
+  /** Inject styles into shadow dom */
+  const globalStyleSheet = new CSSStyleSheet();
+  globalStyleSheet.replaceSync(tailwindcssOutput);
+
+  shadowRoot.adoptedStyleSheets = [globalStyleSheet];
+  shadowRoot.appendChild(rootIntoShadow);
+
+  createRoot(rootIntoShadow).render(<Recommendation platform="blur" wallet={props.wallet} />);
+}
+
 if (window.location.host === 'opensea.io') {
   let db;
   const request = indexedDB.open('localforage');
@@ -184,10 +237,22 @@ if (window.location.host === 'opensea.io') {
       console.log('NFE got value', request.result);
       // if is index
       if (window.location.pathname === '/') {
-        injectOpenseaIndexRecommendation();
+        injectOpenseaUniversalRecommendation({
+          wallet: request.result.walletAddress,
+        });
+        injectOpenseaIndexRecommendationOld();
       }
 
       injectOpenseaItemRating();
     };
   };
+}
+
+if (window.location.host === 'blur.network' || window.location.host === 'blur.io') {
+  // try read wallet address from local storage
+  const authTokenMetadata = localStorage.getItem('blur.auth.authTokenMetadata');
+  const { _currentWalletAddress } = authTokenMetadata ? JSON.parse(authTokenMetadata) : { _currentWalletAddress: '' };
+  injectBlurUniversalRecommendation({
+    wallet: _currentWalletAddress,
+  });
 }
