@@ -75,15 +75,15 @@ export default function Recommendation(props: RecommendationProps) {
       collectionName: 'CryptoPunks',
       collectionDescription:
         '10,000 unique pixel art characters with proof of ownership stored on the Ethereum blockchain.',
-      itemID: '0x0483b0dfc6c78062b9e999a82ffb795925381415/405',
+      itemID: '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/2048',
       itemDescription:
         'CryptoPunks are a collection of 10,000 unique pixel art characters with proof of ownership stored on the Ethereum blockchain.',
       image: 'https://i.seadn.io/s/raw/files/f3564ef33373939b024fb791f21ec37b.png?auto=format&dpr=1&w=640',
       price: '0.69 ETH',
       buyUrl:
         props.platform === 'opensea'
-          ? 'https://opensea.io/assets/ethereum/0x0483b0dfc6c78062b9e999a82ffb795925381415/405'
-          : 'https://blur.io/eth/asset/0x0483b0dfc6c78062b9e999a82ffb795925381415/405',
+          ? 'https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/2048'
+          : 'https://blur.io/eth/asset/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/2048',
     },
     {
       collectionName: 'Bored Ape Yacht Club',
@@ -107,7 +107,10 @@ export default function Recommendation(props: RecommendationProps) {
         'Pudgy Penguins are a collection of 10,000 unique Pudgy Penguin NFTs with proof of ownership stored on the Ethereum blockchain.',
       image: 'https://i.seadn.io/gcs/files/382f58322af33054cdab993172439576.png?auto=format&dpr=1&w=640',
       price: '0.69 ETH',
-      buyUrl: 'https://opensea.io/assets/ethereum/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405',
+      buyUrl:
+        props.platform === 'opensea'
+          ? 'https://opensea.io/assets/ethereum/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405'
+          : 'https://blur.io/eth/asset/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405',
     },
     {
       collectionName: 'Pudgy Penguins',
@@ -118,7 +121,10 @@ export default function Recommendation(props: RecommendationProps) {
         'Pudgy Penguins are a collection of 10,000 unique Pudgy Penguin NFTs with proof of ownership stored on the Ethereum blockchain.',
       image: 'https://i.seadn.io/gcs/files/7fe8c3a87d8f70a1514437503eb183ef.png?auto=format&dpr=1&w=640',
       price: '0.69 ETH',
-      buyUrl: 'https://opensea.io/assets/ethereum/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405',
+      buyUrl:
+        props.platform === 'opensea'
+          ? 'https://opensea.io/assets/ethereum/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405'
+          : 'https://blur.io/eth/asset/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405',
     },
     {
       collectionName: 'Bored Ape Yacht Club',
