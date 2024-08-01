@@ -35,21 +35,26 @@ function NFTItemCard(props: NFTItemCardProps) {
     <Card className="bg-zinc-800 rounded-md">
       <div className="py-2 px-2">
         <div className="space-x-2 flex">
-          <div>
-            <img src={props.image} width={512} height={125} alt="NFT Image" className="rounded-md" />
+          <div className="space-y-2 w-1/3">
+            <img src={props.image} width={256} height={256} alt="NFT Image" className="rounded-md h-256 w-256" />
           </div>
-          <div className="space-y-2 max-x-[8rem]">
+          <div className="space-y-2 w-2/3">
             <CardTitle>
               {props.collectionName} <code>#{props.itemID.split('/')[1]}</code>
             </CardTitle>
             <CardDescription>{props.collectionDescription}</CardDescription>
-            <p className="text-sm text-muted-foreground">{props.itemDescription}</p>
+            {/* <p className="text-sm text-muted-foreground">{props.itemDescription}</p> */}
 
             <div className="flex justify-between ">
               <div></div>
-              <a href={props.buyUrl} className="text-primary">
+              <a href={props.buyUrl} className="text-primary border-1">
                 <Button className="space-x-2">
-                  <ShoppingCartIcon className="h-6 w-6" />
+                  {/* <ShoppingCartIcon className="h-6 w-6" /> */}
+                  {props.buyUrl.includes('opensea') ? (
+                    <img className="h-8" src="https://opensea.io/static/images/logos/opensea-logo.svg"></img>
+                  ) : (
+                    <img className="h-8" src="https://imgs.blur.io/_assets/homepage/logo.png"></img>
+                  )}
                   <span>{props.price}</span>
                 </Button>
               </a>
@@ -72,31 +77,45 @@ export default function Recommendation(props: RecommendationProps) {
 
   const [suggestedNFTs, setSuggestedNFTs] = useState<NFTItemCardProps[]>([
     {
-      collectionName: 'CryptoPunks',
+      collectionName: 'Mutant Ape Yacht Club',
       collectionDescription:
-        '10,000 unique pixel art characters with proof of ownership stored on the Ethereum blockchain.',
-      itemID: '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/2048',
-      itemDescription:
-        'CryptoPunks are a collection of 10,000 unique pixel art characters with proof of ownership stored on the Ethereum blockchain.',
-      image: 'https://i.seadn.io/s/raw/files/f3564ef33373939b024fb791f21ec37b.png?auto=format&dpr=1&w=640',
-      price: '0.69 ETH',
+        'The MUTANT APE YACHT CLUB is a collection of up to 20,000 Mutant Apes that can only be created by exposing an existing Bored Ape to a vial of MUTANT SERUM or by minting a Mutant Ape in the public sale.',
+      itemID: '0x60e4d786628fea6478f785a6d7e704777c86a7c6/4488',
+      itemDescription: '',
+      image: 'https://i.seadn.io/s/raw/files/f9b31c11951ffb00e95b38c08c5b1fc9.png?auto=format&dpr=1&w=640',
+      price: '4.9 ETH',
       buyUrl:
         props.platform === 'opensea'
-          ? 'https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/2048'
-          : 'https://blur.io/eth/asset/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/2048',
+          ? 'https://opensea.io/assets/ethereum/0x60e4d786628fea6478f785a6d7e704777c86a7c6/4488'
+          : 'https://blur.io/eth/asset/0x60e4d786628fea6478f785a6d7e704777c86a7c6/4488',
     },
     {
       collectionName: 'Bored Ape Yacht Club',
-      collectionDescription: '10,000 unique Bored Ape NFTs with proof of ownership stored on the Ethereum blockchain.',
-      itemID: '0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405',
-      itemDescription:
-        'Bored Ape Yacht Club is a collection of 10,000 unique Bored Ape NFTs with proof of ownership stored on the Ethereum blockchain.',
-      image: 'https://images.blur.io/_blur-prod/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/127-1cafa3ac3af82a3a?w=1024',
-      price: '0.69 ETH',
+      collectionDescription:
+        'The Bored Ape Yacht Club is a collection of 10,000 unique Bored Ape NFTs— unique digital collectibles living on the Ethereum blockchain. Your Bored Ape doubles as your Yacht Club membership card, and grants access to members-only benefits, the first of which is access to THE BATHROOM, a collaborative graffiti board. Future areas and perks can be unlocked by the community through roadmap activation. Visit www.BoredApeYachtClub.com for more details.',
+      itemID: '0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/106',
+      itemDescription: '',
+      image:
+        'https://i.seadn.io/gae/fiIQC-L2lXyXOxt8XryyzqFcU-hVC5MGXL7x9q5NdMe028rYRXTc1IMpkYqYmoOSAKiSg_VeRBXEy7W4NMFfJ71fD7zXiRzui_AeHg?auto=format&dpr=1&w=750',
+      price: '9.95 ETH',
       buyUrl:
         props.platform === 'opensea'
-          ? 'https://opensea.io/assets/ethereum/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405'
-          : 'https://blur.io/eth/asset/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405',
+          ? 'https://opensea.io/assets/ethereum/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/106'
+          : 'https://blur.io/eth/asset/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/106',
+    },
+    {
+      collectionName: 'Bored Ape Kennel Club',
+      collectionDescription:
+        '10,000 unique Pudgy Penguin NFTs with proof of ownership stored on the Ethereum blockchain.',
+      itemID: '0xba30e5f9bb24caa003e9f2f0497ad287fdf95623/2296',
+      itemDescription:
+        "It gets lonely in the swamp sometimes. That's why every ape should have a four-legged companion. To curl up at your feet. To bring you a beer. To fire a missile launcher at that bastard Jimmy the Monkey. That's why we've started the Bored Ape Kennel Club, and why we're offering up a dog NFT for adoption to every single member of the BAYC – for free (you only pay gas). Learn more at: http://boredapeyachtclub.com/#/kennel-club",
+      image: 'https://i.seadn.io/gcs/files/cc17190ec41f434b7ed7f5771e5173ea.png?auto=format&dpr=1&w=750',
+      price: '0.36 ETH',
+      buyUrl:
+        props.platform === 'opensea'
+          ? 'https://opensea.io/assets/ethereum/0xba30e5f9bb24caa003e9f2f0497ad287fdf95623/2296'
+          : 'https://blur.io/eth/asset/0xba30e5f9bb24caa003e9f2f0497ad287fdf95623/2296',
     },
     {
       collectionName: 'Pudgy Penguins',
@@ -106,21 +125,7 @@ export default function Recommendation(props: RecommendationProps) {
       itemDescription:
         'Pudgy Penguins are a collection of 10,000 unique Pudgy Penguin NFTs with proof of ownership stored on the Ethereum blockchain.',
       image: 'https://i.seadn.io/gcs/files/382f58322af33054cdab993172439576.png?auto=format&dpr=1&w=640',
-      price: '0.69 ETH',
-      buyUrl:
-        props.platform === 'opensea'
-          ? 'https://opensea.io/assets/ethereum/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405'
-          : 'https://blur.io/eth/asset/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405',
-    },
-    {
-      collectionName: 'Pudgy Penguins',
-      collectionDescription:
-        '10,000 unique Pudgy Penguin NFTs with proof of ownership stored on the Ethereum blockchain.',
-      itemID: '0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405',
-      itemDescription:
-        'Pudgy Penguins are a collection of 10,000 unique Pudgy Penguin NFTs with proof of ownership stored on the Ethereum blockchain.',
-      image: 'https://i.seadn.io/gcs/files/7fe8c3a87d8f70a1514437503eb183ef.png?auto=format&dpr=1&w=640',
-      price: '0.69 ETH',
+      price: ' ETH',
       buyUrl:
         props.platform === 'opensea'
           ? 'https://opensea.io/assets/ethereum/0x60ec7b8b1a6b42c7e5a8f0a3f5f9f0e3b8b1b3b1/405'
