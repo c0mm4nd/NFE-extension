@@ -18,7 +18,7 @@ const manifest = Object.assign({
   name: '__MSG_extensionName__',
   version: packageJson.version,
   description: '__MSG_extensionDescription__',
-  permissions: ['storage'],
+  permissions: ['storage', 'activeTab'],
   options_page: 'options/index.html',
   action: {
     default_popup: 'popup/index.html',
@@ -27,13 +27,14 @@ const manifest = Object.assign({
   icons: {
     128: 'icon-128.png',
   },
+  host_permissions: ['https://*.opensea.io/*', 'https://*.blur.network/*', 'https://*.blur.io/*'],
   content_scripts: [
     // {
     //   matches: ['http://*/*', 'https://*/*', '<all_urls>'],
     //   js: ['content/index.iife.js'],
     // },
     {
-      matches: ['http://*/*', 'https://*/*', '<all_urls>'],
+      matches: ['https://*.opensea.io/*', 'https://*.blur.network/*', 'https://*.blur.io/*'],
       js: ['content-ui/index.iife.js'],
     },
     // {
