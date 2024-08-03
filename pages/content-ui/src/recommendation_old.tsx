@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
+import { SVGProps, useEffect } from 'react';
 import { Button } from '@workspace/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter, CardContent } from '@workspace/components/ui/card';
-import { ScrollArea, ScrollBar } from '@workspace/components/ui/scroll-area';
 
 function RecCard() {
   return (
@@ -23,9 +21,7 @@ function RecCard() {
   );
 }
 
-function Component() {}
-
-function ChevronLeftIcon(props) {
+function ChevronLeftIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -43,7 +39,7 @@ function ChevronLeftIcon(props) {
   );
 }
 
-function ChevronRightIcon(props) {
+function ChevronRightIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -61,7 +57,7 @@ function ChevronRightIcon(props) {
   );
 }
 
-function XIcon(props) {
+function XIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
