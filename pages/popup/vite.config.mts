@@ -14,6 +14,6 @@ export default withPageConfig({
   },
   publicDir: resolve(rootDir, 'public'),
   build: {
-    outDir: resolve(workspaceDir, 'dist', 'options'),
+    outDir: resolve(workspaceDir, 'dist', 'popup'),
   },
 });
