@@ -8,6 +8,8 @@ import tailwindcssOutput from '@src/tailwind-output.css?inline';
 
 import ort from 'onnxruntime-web';
 
+declare const browser: any;
+
 // Assuming ort-wasm-simd.wasm is copied to the root of the dist directory
 function getWasmPath() {
   // Check if browser object is available (Firefox)

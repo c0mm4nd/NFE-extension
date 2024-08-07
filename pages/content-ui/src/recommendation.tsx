@@ -18,11 +18,14 @@ import { Button } from '@workspace/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@workspace/components/ui/card';
 import { formatEther } from 'viem';
 
+declare const browser: any;
+
 function getPath(relativePath: string) {
   // Check if browser object is available (Firefox)
   if (typeof browser !== 'undefined') {
-    return browser.runtime.getURL(relativePath);
+    return browser.runtime.getURL('content-ui/ort-wasm-simd.wasm');
   }
+
   // Check if chrome object is available (Chrome)
   if (typeof chrome !== 'undefined') {
     return chrome.runtime.getURL(relativePath);
