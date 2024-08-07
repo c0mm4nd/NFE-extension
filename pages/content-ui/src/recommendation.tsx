@@ -13,8 +13,54 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@workspace/components/ui/sheet';
+import * as ort from 'onnxruntime-web';
 import { Button } from '@workspace/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@workspace/components/ui/card';
+import { formatEther } from 'viem';
+
+function getPath(relativePath: string) {
+  // Check if browser object is available (Firefox)
+  if (typeof browser !== 'undefined') {
+    return browser.runtime.getURL(relativePath);
+  }
+  // Check if chrome object is available (Chrome)
+  if (typeof chrome !== 'undefined') {
+    return chrome.runtime.getURL(relativePath);
+  }
+
+  throw new Error('Unable to determine browser runtime.');
+}
+
+async function loadModel() {
+  try {
+    // create a new session and load the specific model.
+    //
+    // the model in this example contains a single MatMul node
+    // it has 2 inputs: 'a'(float32, 3x4) and 'b'(float32, 4x3)
+    // it has 1 output: 'c'(float32, 3x3)
+    const session = await ort.InferenceSession.create(getPath('content-ui/nft_model.onnx'));
+    console.log('created inference session', session);
+
+    // // prepare inputs. a tensor need its corresponding TypedArray as data
+    const dataA = Float32Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    const dataB = Float32Array.from([10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120]);
+    const tensorA = new ort.Tensor('float32', dataA, [3, 4]);
+    const tensorB = new ort.Tensor('float32', dataB, [4, 3]);
+
+    // // prepare feeds. use model input names as keys.
+    // const feeds = { a: tensorA, b: tensorB };
+
+    // // feed inputs and run
+    // const results = await session.run(feeds);
+
+    // // read from results
+    // const dataC = results.c.data;
+    // document.write(`data of result tensor 'c': ${dataC}`);
+  } catch (e) {
+    console.error(e);
+    // document.write(`failed to inference ONNX model: ${e}.`);
+  }
+}
 
 interface NFTItem {
   collectionName: string;
@@ -39,16 +85,28 @@ function NFTItemCard(props: NFTItemCardProps) {
       ? `https://opensea.io/assets/${props.itemID}`
       : `https://blur.network/eth/asset/${props.itemID}`;
 
+  const NFT_id = props.itemID.split('/')[1];
+  const shorten_NFT_id = NFT_id.length > 10 ? NFT_id.slice(0, 4) + '...' + NFT_id.slice(-4) : NFT_id;
+
   return (
     <Card className="bg-zinc-800 rounded-md">
       <div className="py-2 px-2">
         <div className="space-x-2 flex">
           <div className="space-y-2 w-1/3">
-            <img src={props.image} width={256} height={256} alt="NFT Image" className="rounded-md h-256 w-256" />
+            <img
+              src={props.image}
+              onError={e => {
+                e.currentTarget.src = 'https://generated.vusercontent.net/placeholder.svg';
+              }}
+              width={256}
+              height={256}
+              alt="NFT Image"
+              className="rounded-md h-256 w-256"
+            />
           </div>
           <div className="space-y-2 w-2/3">
             <CardTitle>
-              {props.collectionName} <code>#{props.itemID.split('/')[1]}</code>
+              {props.collectionName} <code>#{shorten_NFT_id}</code>
             </CardTitle>
             <CardDescription>{props.collectionDescription}</CardDescription>
             {/* <p className="text-sm text-muted-foreground">{props.itemDescription}</p> */}
@@ -63,7 +121,7 @@ function NFTItemCard(props: NFTItemCardProps) {
                   ) : (
                     <img className="h-8" src="https://imgs.blur.io/_assets/homepage/logo.png"></img>
                   )}
-                  <span>{props.price}</span>
+                  <span>{props.price ? formatEther(BigInt(props.price)) + ' ETH' : 'No listing yet'}</span>
                 </Button>
               </a>
             </div>
@@ -92,6 +150,10 @@ export default function Recommendation(props: RecommendationProps) {
         console.log('recommendations', data);
         setSuggestedNFTs(data['recommendations']);
       });
+  }, []);
+
+  useEffect(() => {
+    loadModel();
   }, []);
 
   return (

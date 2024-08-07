@@ -6,6 +6,31 @@ import Popup from './popup';
 // @ts-ignore
 import tailwindcssOutput from '@src/tailwind-output.css?inline';
 
+import ort from 'onnxruntime-web';
+
+// Assuming ort-wasm-simd.wasm is copied to the root of the dist directory
+function getWasmPath() {
+  // Check if browser object is available (Firefox)
+  if (typeof browser !== 'undefined') {
+    return browser.runtime.getURL('content-ui/ort-wasm-simd.wasm');
+  }
+  // Check if chrome object is available (Chrome)
+  if (typeof chrome !== 'undefined') {
+    return chrome.runtime.getURL('content-ui/ort-wasm-simd.wasm');
+  }
+
+  throw new Error('Unable to determine browser runtime.');
+}
+
+console.log('wasm path', getWasmPath());
+const wasmPath = getWasmPath();
+
+ort.env.wasm.wasmPaths = {
+  'ort-wasm-simd.wasm': wasmPath,
+};
+ort.env.wasm.numThreads = 1;
+// ort.env.wasm.proxy = true;
+
 function injectOpenseaIndexRecommendationOld() {
   const root = document.createElement('div');
   root.id = 'non-fungible-enthusiast-view-root';

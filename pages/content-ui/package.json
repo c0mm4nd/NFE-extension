@@ -20,12 +20,16 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@chrome-extension-boilerplate/shared": "workspace:*"
+    "@chrome-extension-boilerplate/shared": "workspace:*",
+    "@walletconnect/web3wallet": "^1.13.0",
+    "onnxruntime-web": "^1.18.0",
+    "viem": "^2.19.1",
+    "vite-plugin-static-copy": "^1.0.6"
   },
   "devDependencies": {
+    "@chrome-extension-boilerplate/hmr": "workspace:*",
     "@chrome-extension-boilerplate/tailwindcss-config": "workspace:*",
     "@chrome-extension-boilerplate/tsconfig": "workspace:*",
-    "@chrome-extension-boilerplate/hmr": "workspace:*",
     "@chrome-extension-boilerplate/vite-config": "workspace:*"
   }
 }

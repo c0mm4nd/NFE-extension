@@ -62,7 +62,6 @@
     "input-otp": "^1.2.4",
     "lucide-react": "^0.411.0",
     "next-themes": "^0.3.0",
-    "onnxruntime-web": "^1.18.0",
     "postcss": "^8.4.38",
     "react": "18.3.1",
     "react-day-picker": "^8.10.1",
