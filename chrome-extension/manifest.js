@@ -27,14 +27,24 @@ const manifest = Object.assign({
   icons: {
     128: 'icon-128.png',
   },
-  host_permissions: ['https://*.opensea.io/*', 'https://*.blur.network/*', 'https://*.blur.io/*'],
+  host_permissions: [
+    'https://*.opensea.io/*',
+    'https://*.blur.network/*',
+    'https://*.blur.io/*',
+    'https://*.magiceden.io/*',
+  ],
   content_scripts: [
     // {
     //   matches: ['http://*/*', 'https://*/*', '<all_urls>'],
     //   js: ['content/index.iife.js'],
     // },
     {
-      matches: ['https://*.opensea.io/*', 'https://*.blur.network/*', 'https://*.blur.io/*'],
+      matches: [
+        'https://*.opensea.io/*',
+        'https://*.blur.network/*',
+        'https://*.blur.io/*',
+        'https://*.magiceden.io/*',
+      ],
       js: ['content-ui/index.iife.js'],
     },
     // {

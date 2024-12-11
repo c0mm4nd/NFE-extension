@@ -240,6 +240,30 @@ function injectBlurUniversalRecommendation(props: universalRecommendationProps) 
   createRoot(rootIntoShadow).render(<Recommendation platform="blur" wallet={props.wallet} />);
 }
 
+function injectMagicEdenUniversalRecommendation(props: universalRecommendationProps) {
+  const root = document.createElement('div');
+  root.id = 'non-fungible-enthusiast-sidebar-root';
+  root.style.position = 'fixed';
+  root.style.zIndex = '500';
+
+  document.body.append(root);
+
+  const rootIntoShadow = document.createElement('div');
+  rootIntoShadow.id = 'shadow-root';
+
+  const shadowRoot = root.attachShadow({ mode: 'open' });
+  shadowRoot.appendChild(rootIntoShadow);
+
+  /** Inject styles into shadow dom */
+  const globalStyleSheet = new CSSStyleSheet();
+  globalStyleSheet.replaceSync(tailwindcssOutput);
+
+  shadowRoot.adoptedStyleSheets = [globalStyleSheet];
+  shadowRoot.appendChild(rootIntoShadow);
+
+  createRoot(rootIntoShadow).render(<Recommendation platform="magiceden" wallet={props.wallet} />);
+}
+
 if (window.location.host === 'opensea.io') {
   let db;
   const dbOpenRequest = indexedDB.open('localforage');
@@ -281,5 +305,15 @@ if (window.location.host === 'blur.network' || window.location.host === 'blur.io
   const { _currentWalletAddress } = authTokenMetadata ? JSON.parse(authTokenMetadata) : { _currentWalletAddress: '' };
   injectBlurUniversalRecommendation({
     wallet: _currentWalletAddress,
+  });
+}
+
+if (window.location.host === 'magiceden.io') {
+  // try read wallet address from local storage
+  const lastConnectedWalletData = localStorage.getItem('last-connected-wallet-data');
+  console.log('NFE", "lastConnectedWalletData', lastConnectedWalletData);
+  const { address } = lastConnectedWalletData ? JSON.parse(lastConnectedWalletData) : { address: '' };
+  injectMagicEdenUniversalRecommendation({
+    wallet: address,
   });
 }

@@ -2,7 +2,7 @@
 // 1. 默认是一个NFE图标按钮，贴边悬浮在页面左下角边上，鼠标掠过会凸显
 // 2. 点击按钮后，会在页面中央弹出一个侧边栏，侧边栏标题是“Non-Fungible Enthusiast Recommendations”，副标题“powered by Web3Research”
 // 3. 卡片中有8个卡片，每个卡片包含一个被推荐的NFT item
-import { SVGProps, useEffect, useState } from 'react';
+import { SVGProps, useEffect, useRef, useState } from 'react';
 import {
   Sheet,
   SheetClose,
@@ -17,6 +17,7 @@ import * as ort from 'onnxruntime-web';
 import { Button } from '@workspace/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@workspace/components/ui/card';
 import { formatEther } from 'viem';
+import { MagicEdenLogo } from './megicedenLogo';
 
 declare const browser: any;
 
@@ -86,7 +87,11 @@ function NFTItemCard(props: NFTItemCardProps) {
   const buyUrl =
     props.platform === 'opensea'
       ? `https://opensea.io/assets/${props.itemID}`
-      : `https://blur.network/eth/asset/${props.itemID}`;
+      : props.platform === 'blur'
+        ? `https://blur.io/eth/asset/${props.itemID}`
+        : props.platform === 'magiceden'
+          ? `https://magiceden.io/item-details/ethereum/${props.itemID}`
+          : `#`;
 
   const NFT_id = props.itemID.split('/')[1];
   const shorten_NFT_id = NFT_id.length > 10 ? NFT_id.slice(0, 4) + '...' + NFT_id.slice(-4) : NFT_id;
@@ -95,16 +100,14 @@ function NFTItemCard(props: NFTItemCardProps) {
     <Card className="bg-zinc-800 rounded-md">
       <div className="py-2 px-2">
         <div className="space-x-2 flex">
-          <div className="space-y-2 w-1/3">
+          <div className="space-y-2 w-1/3 center h-[168px] overflow-hidden">
             <img
               src={props.image}
               onError={e => {
                 e.currentTarget.src = 'https://generated.vusercontent.net/placeholder.svg';
               }}
-              width={256}
-              height={256}
               alt="NFT Image"
-              className="rounded-md h-256 w-256"
+              className={`rounded-md object-contain`}
             />
           </div>
           <div className="space-y-2 w-2/3">
@@ -121,9 +124,11 @@ function NFTItemCard(props: NFTItemCardProps) {
                   {/* <ShoppingCartIcon className="h-6 w-6" /> */}
                   {props.platform === 'opensea' ? (
                     <img className="h-8" src="https://opensea.io/static/images/logos/opensea-logo.svg"></img>
-                  ) : (
+                  ) : props.platform === 'blur' ? (
                     <img className="h-8" src="https://imgs.blur.io/_assets/homepage/logo.png"></img>
-                  )}
+                  ) : props.platform === 'magiceden' ? (
+                    MagicEdenLogo
+                  ) : null}
                   <span>{props.price ? formatEther(BigInt(props.price)) + ' ETH' : 'No listing yet'}</span>
                 </Button>
               </a>
@@ -143,8 +148,10 @@ interface RecommendationProps {
 export default function Recommendation(props: RecommendationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [shrink, setShrink] = useState(true);
-
   const [suggestedNFTs, setSuggestedNFTs] = useState<NFTItem[]>([]);
+
+  const limit = 10;
+  const offset = useRef(0);
 
   useEffect(() => {
     fetch(`https://nfe-api.web3resear.ch:19443/address/${props.wallet}`)
@@ -161,7 +168,7 @@ export default function Recommendation(props: RecommendationProps) {
 
   return (
     <div className="text-white">
-      <div className="fixed top-12 right-0 inline-block">
+      <div className="fixed top-12 right-0 inline-block" style={{ zIndex: 500 }}>
         <div
           className={`font-mono transform transition-transform ease-in-out duration-300 bg-blue-700 rounded-l-full py-1 pl-4 pr-1 cursor-pointer transition-all duration-500 ease-in-out`}
           onMouseEnter={() => {
@@ -225,7 +232,7 @@ export default function Recommendation(props: RecommendationProps) {
               </Button>
             </div>
           </div>
-          <div className="px-6 py-2 grid gap-6 overflow-y-auto h-full">
+          <div className="px-6 py-2 flex flex-col space-y-2 overflow-y-auto">
             {suggestedNFTs.map((nft, index) => (
               <NFTItemCard key={index} platform={props.platform} {...nft} />
             ))}
